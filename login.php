@@ -1,9 +1,9 @@
 <?php
-if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
+if(!empty($_POST['username']) && !empty($_POST['password'])){
   require_once 'inc/db.php';
     $req = $pdo->prepare('SELECT * FROM users WHERE username = :username');
     $req->execute(['username' => $_POST['username']]);
-   
+
     $user = $req->fetch();
     if($user == null){
         $_SESSION['flash']['danger'] = 'Identifiant ou mot de passe incorrecte';
@@ -15,7 +15,7 @@ if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
     }else{
         $_SESSION['flash']['danger'] = 'Identifiant ou mot de passe incorrecte';
     }
- 
+
 }?>
 
 <?php require 'inc/header.php'; ?>
