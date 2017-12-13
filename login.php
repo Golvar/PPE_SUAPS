@@ -1,4 +1,7 @@
 <?php
+session_start();
+
+
 if(!empty($_POST['username']) && !empty($_POST['password'])){
   require_once 'inc/db.php';
     $req = $pdo->prepare('SELECT * FROM users WHERE username = :username');
