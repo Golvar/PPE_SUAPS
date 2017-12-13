@@ -28,10 +28,15 @@
           <a class ="navbar-brand" href="#">Suaps</a>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+
+              <?php if (isset($_SESSION['auth'])):?>
+                <li><a href="logout.php">Deconnexion</a></li>
+              <?php else : ?>
               <li><a href="login.php">Se connecter</a></li>
               <li><a href="#contact">Contact</a></li>
+              <?php endif; ?>
             </ul>
-          </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
     </div>
