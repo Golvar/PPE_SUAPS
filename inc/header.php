@@ -30,6 +30,8 @@
             <ul class="nav navbar-nav">
 
               <?php if (isset($_SESSION['auth'])):?>
+                <li><a href="help.php">Aide</a></li>
+                <li><a href="help.php">Contact</a></li>
                 <li><a href="logout.php">Deconnexion</a></li>
               <?php else : ?>
               <li><a href="login.php">Se connecter</a></li>
