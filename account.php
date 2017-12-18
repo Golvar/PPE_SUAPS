@@ -6,23 +6,22 @@
 
     $mois = $date->format('F');
     $jour= $date->format('d l');
-
 ?>
 
 <h1>Votre compte</h1>
 
 <div class="panel panel-primary">
   <div class="panel-heading">
-    <h3 class="panel-title"><?=$_SESSION['auth']->username; ?></h3>
+    <h3 class="panel-title"><?=$_SESSION['auth']->PRENOM ." ".$_SESSION['auth']->NOM  ; ?></h3>
   </div>
   <div class="panel-body">
     <ul>
-      <li>Golfeur</li>
-      <li>Tickets SEM : </li>
-      <li>Tickets WE : </li>
-      <li>Parcours : </li>
-      <li>Réservations :  </li>
-      <li>Invitations :  </li>
+      <li><?= $_SESSION['auth']->TYPE ?></li>
+      <li>Tickets SEM : <?= $_SESSION['auth']->TICKET_SEMAINE ?> </li>
+      <li>Tickets WE : <?= $_SESSION['auth']->TICKET_WE ?>  </li>
+      <li>Parcours : <?= $_SESSION['auth']->NBPARCOURS ?>  </li>
+      <li>Réservations : <?= $_SESSION['auth']->NBRESERVATION ?> </li>
+      <li>Invitations : <?= $_SESSION['auth']->NBINVITATION ?>  </li>
     </ul>
   </div>
 </div>
