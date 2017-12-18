@@ -25,7 +25,7 @@
     <div class="navbar navbar-inverse">
       <div class="navbar-inner">
         <div class="container">
-          <a class ="navbar-brand" href="#">Suaps</a>
+          <a class ="navbar-brand" href="account.php">Suaps</a>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
 
@@ -33,6 +33,9 @@
                 <li><a href="help.php">Aide</a></li>
                 <li><a href="help.php">Contact</a></li>
                 <li><a href="logout.php">Deconnexion</a></li>
+                <?php if ($_SESSION['auth']->ADMIN == 1):?>
+                  <li><a href="administrer.php">Administrer</a></li>
+                <?php endif; ?>
               <?php else : ?>
               <li><a href="login.php">Se connecter</a></li>
               <li><a href="#contact">Contact</a></li>

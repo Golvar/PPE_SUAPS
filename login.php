@@ -10,7 +10,7 @@ if(!empty($_POST['username']) && !empty($_POST['password'])){
     $user = $req->fetch();
     if($user == null){
         $_SESSION['flash']['danger'] = 'Identifiant ou mot de passe incorrecte';
-    }elseif($_POST['password'] == $user->PASSWORD){
+    }elseif(password_verify($_POST['password'], $user->PASSWORD)){
         $_SESSION['auth'] = $user;
         $_SESSION['flash']['success'] = 'Vous êtes maintenant connecté';
         header('Location: account.php');
