@@ -5,6 +5,7 @@
     $date = new DateTime();
 
     $mois = $date->format('F');
+    $weekend = $date->format('w');
     $jour= $date->format('d l');
 ?>
 
@@ -35,16 +36,22 @@
       <th>Joueur 2</th>
       <th>Joueur 3</th>
       <th>Joueur 4</th>
+      <th>Reservation</th>
     </tr>
   </thead>
   <tbody>
     <?php for ($i=0; $i < 15 ; $i++): ?>
-    <tr>
+      <?php if($date->format('w') == 0 || $date->format('w') == 6): ?>
+      <tr class="danger">
+      <?php else : ?>
+      <tr>
+      <?php endif;?>
       <td><?= $date->format('d l'); ?></td>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><button type="" name="button" class="btn btn-primary">Réserver</button></td>
     </tr>
     <?php $date->modify('+ 1 day'); ?>
   <?php endfor; ?>
