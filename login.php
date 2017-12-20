@@ -22,6 +22,7 @@ if(!empty($_POST['username']) && !empty($_POST['password'])){
 }?>
 
 <?php require 'inc/header.php'; ?>
+
 <h1>Se connecter </h1>
   <form action="" method="POST">
     <div class="from-group">
