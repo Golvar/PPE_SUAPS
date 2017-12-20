@@ -43,6 +43,13 @@
     <?php for ($i=0; $i < 15 ; $i++): ?>
       <?php if($date->format('w') == 0 || $date->format('w') == 6): ?>
       <tr class="danger">
+        <?php if($date->format('j')==1): ?>
+          <thead>
+            <tr>
+              <th><?=$mois ?></th>
+            </tr>
+          </thead>
+        <?php endif; ?>
       <?php else : ?>
       <tr>
       <?php endif;?>
