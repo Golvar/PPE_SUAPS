@@ -12,14 +12,10 @@
     if(!empty($_POST)){
       require_once 'inc/db.php';
 
-      $req = $pdo->prepare("INSERT INTO users SET NOM = ?, PRENOM = ?, USERNAME = ?, TYPE = ?, ADMIN = ?, PASSWORD = ?");
+      $req = $pdo->prepare("INSERT INTO users SET NOM = ?, PRENOM = ?, USERNAME = ?, ADMIN = ?, PASSWORD = ?");
       $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-      if(empty($_POST['admin'])){
-        $admin = 0;
-      }else {
-        $admin=1;
-      }
-      $req->execute([$_POST['nom'], $_POST['prenom'], $_POST['username'], $_POST['type'], $admin, $password]);
+
+      $req->execute([$_POST['nom'], $_POST['prenom'], $_POST['username'], $_POST['admin'],  $password]);
 
     }
 
@@ -27,49 +23,10 @@
 
 ?>
 
-<h1>Ajouter un compte</h1>
+<h1>Administration</h1>
 
-<form action="" method="POST">
-
-  <div class="from-group">
-    <label for="">Prénom : </label>
-    <input type="text" name="prenom" class="form-control" required>
-  </div>
-  <br>
-  <div class="from-group">
-    <label for="">Nom : </label>
-    <input type="text" name="nom" class="form-control" required>
-  </div>
-  <br>
-  <div class="from-group">
-    <label for="">Nom d'utilisateur : </label>
-    <input type="text" name="username" class="form-control" required>
-  </div>
-  <br>
-  <div class="from-group">
-    <label for="">Type : </label>
-    <input type="text" name="type" class="form-control" required>
-  </div>
-  <br>
-  <div class="from-group">
-    <label for="">Mail : </label>
-    <input type="text" name="mail" class="form-control" required>
-  </div>
-  <br>
-  <div class="from-group">
-    <label for="">Téléphone : </label>
-    <input type="text" name="phone" class="form-control" required>
-  </div>
-  <br>
-  <div class="from-group">
-    <label for="">Mot de passe : </label>
-    <input type="text" name="password" class="form-control" required>
-  </div>
-  <br>
-  <div class="from-check">
-    <label ><input type="checkbox"  name="admin" class="form-check-input" value="1"> Admin</label>
-  </div>
-  <button type="submit" name="button" class="btn btn-primary">Enregistrer</button>
-  <br>
-</form>
-<?php require 'inc/footer.php';?>
+<div class="btn-group btn-group-justified">
+  <a href="addPlayer.php"class="btn btn-primary">Ajouter un Joueur</a>
+  <a href="addTickets.php" class="btn btn-primary ">Ajouter des tickets </a>
+  <a href="stats.php" class="btn btn-primary">Statistiques</a>
+</div>

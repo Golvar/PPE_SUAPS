@@ -34,7 +34,7 @@
                 <li><a href="help.php">Contact</a></li>
                 <li><a href="logout.php">Deconnexion</a></li>
                 <?php if ($_SESSION['auth']->ADMIN == 1):?>
-                  <li><a href="administrer.php">Administrer</a></li>
+                  <li><a href="administrer.php">Administration</a></li>
                 <?php endif; ?>
               <?php else : ?>
               <li><a href="login.php">Se connecter</a></li>
