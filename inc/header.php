@@ -17,7 +17,6 @@
 
     <script src="js/jquery.js"></script>
 
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="js/bootstrap.min.js"></script>
 
