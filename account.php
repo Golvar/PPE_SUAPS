@@ -27,35 +27,7 @@
   </div>
 </div>
 
+<?php require 'tabReservations.php'; ?>
 
-<table class="table table-striped table-hover ">
-  <thead>
-    <tr>
-      <th><?= $mois; ?> </th>
-      <th>Joueur 1</th>
-      <th>Joueur 2</th>
-      <th>Joueur 3</th>
-      <th>Joueur 4</th>
-      <th>Reservation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php for ($i=0; $i < 15 ; $i++): ?>
-      <?php if($date->format('w') == 0 || $date->format('w') == 6): ?>
-      <tr class="danger">
-      <?php else : ?>
-      <tr>
-      <?php endif;?>
-      <td><?= $date->format('d l'); ?></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td><button type="" name="button" class="btn btn-primary">Réserver</button></td>
-    </tr>
-    <?php $date->modify('+ 1 day'); ?>
-  <?php endfor; ?>
-  </tbody>
-</table>
 
 <?php require 'inc/footer.php'; ?>

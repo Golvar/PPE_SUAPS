@@ -55,4 +55,5 @@ $golfeur = $req->fetchAll();
   <br>
 
 
-<? require 'footer.php'; ?>
+
+<?php require 'inc/footer.php';?>
