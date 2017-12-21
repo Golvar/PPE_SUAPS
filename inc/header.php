@@ -14,7 +14,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="css/app.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 
 
@@ -34,7 +34,13 @@
                 <li><a href="help.php">Contact</a></li>
                 <li><a href="logout.php">Deconnexion</a></li>
                 <?php if ($_SESSION['auth']->ADMIN == 1):?>
-                  <li><a href="administrer.php">Administration</a></li>
+                  <li class="dropdown"><a href="administrer.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administration<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="addPlayer.php">Ajouter un joueur</a></li>
+                      <li><a href="addTickets.php">Ajouter des tickets</a></li>
+                      <li><a href="stats.php">Statistiques</a></li>
+                    </ul>
+                  </li>
                 <?php endif; ?>
               <?php else : ?>
               <li><a href="login.php">Se connecter</a></li>
@@ -44,7 +50,8 @@
           </div>
         </div>
       </div>
-    </div>
+   </div>
+
 
     <div class="container">
 

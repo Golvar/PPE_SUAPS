@@ -24,9 +24,3 @@
 ?>
 
 <h1>Administration</h1>
-
-<div class="btn-group btn-group-justified">
-  <a href="addPlayer.php"class="btn btn-primary">Ajouter un Joueur</a>
-  <a href="addTickets.php" class="btn btn-primary ">Ajouter des tickets </a>
-  <a href="stats.php" class="btn btn-primary">Statistiques</a>
-</div>
