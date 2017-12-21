@@ -13,10 +13,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le styles -->
+    <link href="css/app.css" rel="stylesheet">
+
+    <script src="js/jquery.js"></script>
+
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-
+    <script src="js/bootstrap.min.js"></script>
 
   </head>
 
