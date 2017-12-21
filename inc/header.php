@@ -15,8 +15,10 @@
 
     <!-- Le styles -->
     <link href="css/app.css" rel="stylesheet">
+    
+    <script src="js/jquery.js"></script>
 
-
+    <script src="js/bootstrap.min.js"></script>
 
   </head>
 
