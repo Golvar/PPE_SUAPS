@@ -14,6 +14,7 @@
     <meta name="author" content="">
 
     <link href="css/app.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="js/jquery.js"></script>
 
