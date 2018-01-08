@@ -24,7 +24,7 @@
 
   <body>
 
-    <div class="navbar navbar-inverse">
+    <div class="navbar navbar-default">
       <div class="navbar-inner">
         <div class="container">
           <a class ="navbar-brand" href="account.php">Suaps</a>
