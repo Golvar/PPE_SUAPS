@@ -1,14 +1,12 @@
 <?php
 
 require_once 'inc/db.php';
+require_once 'inc/functions.php';
 
 $req= $pdo->prepare('SELECT NOM, DATERESERV FROM users INNER JOIN reserver ON users.IDUSER = reserver.IDUSER');
 $req->execute();
-
 $listResa = $req->fetchAll();
-
-var_dump($listResa);
- ?>
+?>
 
 
 <table class="table table-striped table-hover ">
@@ -38,12 +36,19 @@ var_dump($listResa);
       <?php else : ?>
       <tr>
       <?php endif;?>
+      <?php $tdlist=0; ?>
       <td><?= $date->format('d l'); ?></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td><button type="" name="button" class="btn btn-primary">Réserver</button></td>
+      <?php foreach($listResa as $key => $value): ?>
+        <?php if($listResa[$key]->DATERESERV == $date->format('d/m/Y')): ?>
+          <td><?=$listResa[$key]->NOM; ?></td>
+          <?php $tdlist++; ?>
+        <?php endif; ?>
+
+      <?php endforeach; ?>
+      <?php for ($j=4; $j>$tdlist; --$j): ?>
+        <td></td>
+      <?php endfor; ?>
+      <td><button type="button" onclick="<?php btnReserver($date->format('d/m/Y')) ?>"  class="btn btn-primary">Réserver</button></td>
     </tr>
     <?php $date->modify('+ 1 day'); ?>
   <?php endfor; ?>
