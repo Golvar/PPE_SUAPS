@@ -26,7 +26,7 @@ create table RESERVATION
 /*==============================================================*/
 create table USERS
 (
-   IDUSER               int not null,
+   IDUSER               int not null AUTO_INCREMENT,
    NOM                  varchar(255),
    PRENOM               varchar(255),
    USERNAME             varchar(255),

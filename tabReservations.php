@@ -2,10 +2,10 @@
 
 require_once 'inc/db.php';
 require_once 'inc/functions.php';
-
-$req= $pdo->prepare('SELECT NOM, DATERESERV FROM users INNER JOIN reserver ON users.IDUSER = reserver.IDUSER');
-$req->execute();
-$listResa = $req->fetchAll();
+// REQUETE A REFAIRE 
+//$req= $pdo->prepare('SELECT NOM, DATERESERV FROM users INNER JOIN reserver ON users.IDUSER = reserver.IDUSER');
+//$req->execute();
+//$listResa = $req->fetchAll();
 ?>
 
 
