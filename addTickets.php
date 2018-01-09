@@ -12,14 +12,18 @@ $golfeur = $req->fetchAll();
 <?php if (!empty($_POST)) :?>
     <?php
     require_once 'inc/db.php';
-    $ticketSemExist = $pdo->prepare("SELECT TICKET_SEMAINE FROM users WHERE IDUSER = ?");
-    $ticketSemExist->execute([$golfeur[$_POST['golfeur']]->IDUSER]);
-    $ticketSemainePrecedent = $ticketSemExist->fetch();
-    $ticketWeExist = $pdo->prepare("SELECT TICKET_WE FROM users WHERE IDUSER = ?");
-    $ticketWeExist->execute([$golfeur[$_POST['golfeur']]->IDUSER]);
-    $ticketWeSemainePrecedent = $ticketWeExist->fetch();
+    $reqTicketSem = $pdo->prepare("SELECT TICKET_SEMAINE FROM users WHERE IDUSER = ?");
+    $reqTicketSem->execute([$golfeur[$_POST['golfeur']]->IDUSER]);
+
+    $ticketSemExist = $reqTicketSem->fetch();
+
+    $reqTicketWe = $pdo->prepare("SELECT TICKET_WE FROM users WHERE IDUSER = ?");
+    $reqTicketWe->execute([$golfeur[$_POST['golfeur']]->IDUSER]);
+
+    $ticketWeExist = $reqTicketWe->fetch();
+
     $req = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = ?, TICKET_WE = ? WHERE IDUSER = ?");
-    $req->execute([$_POST['ticketSe'] + $ticketSemainePrecedent->TICKET_SEMAINE, $_POST['ticketWe'] + $ticketWeSemainePrecedent->TICKET_WE, $golfeur[$_POST['golfeur']]->IDUSER]);
+    $req->execute([$_POST['ticketSe'] + $ticketSemExist->TICKET_SEMAINE, $_POST['ticketWe'] + $ticketWeExist->TICKET_WE, $golfeur[$_POST['golfeur']]->IDUSER]);
     ?>
 
     <div class="alert alert-success">
