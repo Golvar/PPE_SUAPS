@@ -12,10 +12,15 @@
     if(!empty($_POST)){
       require_once 'inc/db.php';
 
-      $req = $pdo->prepare("INSERT INTO users SET NOM = ?, PRENOM = ?, USERNAME = ?, ADMIN = ?, PASSWORD = ?");
+      $req = $pdo->prepare("INSERT INTO users SET NOM = ?, PRENOM = ?, USERNAME = ?,TYPE=?, ADMIN = ?, MAIL = ?, TELEPHONE = ?,  PASSWORD = ?");
       $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+      if ($_POST['admin']) {
+        $type= 'Administrateur';
+      }else {
+        $type='Golfeur';
+      }
 
-      $req->execute([$_POST['nom'], $_POST['prenom'], $_POST['username'], $_POST['admin'],  $password]);
+      $req->execute([$_POST['nom'], $_POST['prenom'], $_POST['username'],$type, $_POST['admin'], $_POST['mail'], $_POST['phone'],  $password]);
 
     }
 
