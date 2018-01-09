@@ -16,8 +16,10 @@
       $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
       if ($_POST['admin']) {
         $type= 'Administrateur';
-      }else {
+      }elseif($_POST['admin']==0) {
         $type='Golfeur';
+      }else {
+        $type='Inviter';
       }
 
       $req->execute([$_POST['nom'], $_POST['prenom'], $_POST['username'],$type, $_POST['admin'], $_POST['mail'], $_POST['phone'],  $password]);

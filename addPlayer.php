@@ -36,6 +36,7 @@
     <label for="">Type : </label>
     <select class="form-control" name="admin">
       <option  value="0">Golfeur</option>
+      <option  value="2">Inviter</option>
       <option  value="1">Administrateur</option>
     </select>
   </div>
