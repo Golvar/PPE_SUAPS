@@ -28,7 +28,7 @@
 
               <?php if (isset($_SESSION['auth'])):?>
                 <li><a href="help.php">Aide</a></li>
-                <li><a href="help.php">Contact</a></li>
+                <li><a href="contact.php">Contact</a></li>
                 <li><a href="logout.php">Deconnexion</a></li>
                 <?php if ($_SESSION['auth']->ADMIN == 1):?>
                   <li class="dropdown"><a href="administrer.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administration<span class="caret"></span></a>
@@ -41,7 +41,7 @@
                 <?php endif; ?>
               <?php else : ?>
               <li><a href="login.php">Se connecter</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="contact.php">Contact</a></li>
               <?php endif; ?>
             </ul>
           </div>
