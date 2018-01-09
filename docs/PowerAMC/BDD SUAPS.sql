@@ -13,7 +13,7 @@ drop table if exists USERS;
 /*==============================================================*/
 create table RESERVATION
 (
-   IDRESERV             int not null,
+   IDRESERV             int not null AUTO_INCREMENT,
    IDUSER               int not null,
    USE_IDUSER           int,
    DATEPREVU            varchar(255),
@@ -48,4 +48,3 @@ alter table RESERVATION add constraint FK_INVITER foreign key (USE_IDUSER)
 
 alter table RESERVATION add constraint FK_RESERVER foreign key (IDUSER)
       references USERS (IDUSER) on delete restrict on update restrict;
-

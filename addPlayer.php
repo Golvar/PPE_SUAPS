@@ -1,4 +1,20 @@
-<?php require 'administrer.php'; ?>
+<?php require 'administrer.php';
+if(!empty($_POST)){
+  require_once 'inc/db.php';
+
+  $req = $pdo->prepare("INSERT INTO users SET NOM = ?, PRENOM = ?, USERNAME = ?,TYPE=?, ADMIN = ?, MAIL = ?, TELEPHONE = ?,  PASSWORD = ?");
+  $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+  if ($_POST['admin']) {
+    $type= 'Administrateur';
+  }elseif($_POST['admin']==0) {
+    $type='Golfeur';
+  }else {
+    $type='Invité';
+  }
+
+  $req->execute([$_POST['nom'], $_POST['prenom'], $_POST['username'],$type, $_POST['admin'], $_POST['mail'], $_POST['phone'],  $password]);
+
+} ?>
 
 <form action="" method="POST">
 <br><br>
