@@ -2,6 +2,7 @@
     session_start();
     require 'inc/header.php';
     date_default_timezone_set('UTC');
+    $DDay = new DateTime();
     $date = new DateTime();
 
     $mois = $date->format('F');
