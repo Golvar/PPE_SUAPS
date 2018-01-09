@@ -54,7 +54,7 @@
     </div>
 </div>
 <div class="col-lg-4">
-    <div class="panel panel-info">
+    <div class="panel panel-warning">
       <div class="panel-heading">
         <h3 class="panel-title">Joueur Invité</h3>
       </div>
