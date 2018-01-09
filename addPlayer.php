@@ -16,6 +16,13 @@ if(!empty($_POST)){
 
 } ?>
 
+<?php if (!empty($_POST)): ?>
+  <div class="alert alert-success">
+    <?= $_POST['prenom'] . " " . $_POST['nom']. " a bien été ajouté dans la base de donnée"; ?>
+  </div>
+<?php endif; ?>
+
+
 <form action="" method="POST">
 <br><br>
   <div class="from-group">

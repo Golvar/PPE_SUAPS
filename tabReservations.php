@@ -2,10 +2,20 @@
 
 require_once 'inc/db.php';
 require_once 'inc/functions.php';
-// REQUETE A REFAIRE
+if(!empty($_POST['reserver'])){
+
+  $idUser = $_SESSION['auth']->IDUSER;
+  $DateReservation = $_POST['reserver'];
+
+  $req = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
+  $req->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
+}
+
+
 $req= $pdo->prepare('SELECT NOM, DATERESERV FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
 $req->execute();
 $listResa = $req->fetchAll();
+
 ?>
 
 
@@ -48,7 +58,9 @@ $listResa = $req->fetchAll();
       <?php for ($j=4; $j>$tdlist; --$j): ?>
         <td></td>
       <?php endfor; ?>
-      <td><button type="button" onclick="<?php btnReserver($date->format('d/m/Y')) ?>"  class="btn btn-primary">Réserver</button></td>
+        <form action="" method="post">
+            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
+        </form>
     </tr>
     <?php $date->modify('+ 1 day'); ?>
   <?php endfor; ?>
