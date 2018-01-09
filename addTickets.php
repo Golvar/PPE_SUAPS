@@ -1,145 +1,205 @@
 <?php require 'administrer.php';
 require_once 'inc/db.php';
+
+
 $req = $pdo->prepare('SELECT * FROM users WHERE ADMIN = 0');
+
 
 $req->execute();
 $golfeur = $req->fetchAll();
  ?>
+
+<?php if (!empty($_POST)) :?>
+    <?php
+    require_once 'inc/db.php';
+    $ticketExist = $pdo->prepare("SELECT TICKET_SEMAINE FROM users WHERE IDUSER = ?");
+    $ticketExist->execute([$golfeur[$_POST['golfeur']]->IDUSER]);
+    $ticketSemainePrecedent = $ticketExist->fetch();
+    $req = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = ?, TICKET_WE = ? WHERE IDUSER = ?");
+    $req->execute([$_POST['ticketSe'] + $ticketSemainePrecedent->TICKET_SEMAINE, $_POST['ticketWe'], $golfeur[$_POST['golfeur']]->IDUSER]);
+    ?>
+
+    <div class="alert alert-success">
+        <?= $_POST['ticketSe'] . " tickets semaine et "  . $_POST['ticketWe'] . " titckets weekend on été crédités à " . $golfeur[$_POST['golfeur']]->PRENOM . " " . $golfeur[$_POST['golfeur']]->NOM  ?>
+    </div>
+<?php endif; ?>
+
 <br>
+<form action="" method="POST">
 <div class="from-group">
   <label for="">Golfeur : </label>
   <select class="form-control" name="golfeur">
     <?php for ($i=0; $i < sizeof($golfeur); $i++): ?>
-    <option  value=i><?= $golfeur[$i]->NOM . " " . $golfeur[$i]->PRENOM ?></option>
+    <option  value='<?= $i?>'><?= $golfeur[$i]->NOM . " " . $golfeur[$i]->PRENOM ?></option>
   <?php endfor; ?>
   </select>
 </div>
 <br>
 
-<form action="" method="POST">
+
     <label for="">Nombre de ticket semaine à créditer : </label>
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 0>0</button>
-            </div>
-            <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 1>1</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 2>2</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 3>3</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 4>4</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 5>5</button>
-            </div>
-            <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 6>6</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 7>7</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 8>8</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 9>9</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 10>10</button>
-            </div>
-            <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 11>11</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 12>12</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 13>13</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 14>14</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 15>15</button>
-            </div>
-            <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 16>16</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 17>17</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 18>18</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 19>19</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 20>20</button>
-            </div>
-            <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 21>21</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 22>22</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 23>23</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 24>24</button>
-                <button type="button" name="ticketSe" class="btn btn-primary" value = 25>25</button>
-            </div>
-        </div>
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe" value= 0 autocomplete="on" checked="checked"> 0
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe" value= 1 autocomplete="off"> 1
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 2 autocomplete="off"> 2
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 3 autocomplete="off"> 3
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 4 autocomplete="off"> 4
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 5 autocomplete="off"> 5
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 6 autocomplete="off"> 6
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 7 autocomplete="off"> 7
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 8 autocomplete="off"> 8
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 9 autocomplete="off"> 9
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 10 autocomplete="off"> 10
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe" value= 11 autocomplete="off"> 11
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 12 autocomplete="off"> 12
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 13 autocomplete="off"> 13
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 14 autocomplete="off"> 14
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 15 autocomplete="off"> 15
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 16 autocomplete="off"> 16
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 17 autocomplete="off"> 17
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 18 autocomplete="off"> 18
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 19 autocomplete="off"> 19
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 20 autocomplete="off"> 20
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 21 autocomplete="off"> 21
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 22 autocomplete="off"> 22
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 23 autocomplete="off"> 23
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 24 autocomplete="off"> 24
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="ticketSe"  value= 25 autocomplete="off"> 25
+        </label>
+    </div>
 
         <br><br>
         <label for="">Nombre de ticket Weekend à créditer : </label>
         <br>
         <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" value='1' autocomplete="off" checked> 0
+                <input type="radio" name="ticketWe" value= 0 autocomplete="on" checked="checked"> 0
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option1" autocomplete="off" checked> 1
+                <input type="radio" name="ticketWe" value= 1 autocomplete="off"> 1
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option2" autocomplete="off"> 2
+                <input type="radio" name="ticketWe"  value= 2 autocomplete="off"> 2
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option3" autocomplete="off"> 3
+                <input type="radio" name="ticketWe"  value= 3 autocomplete="off"> 3
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option1" autocomplete="off" checked> 4
+                <input type="radio" name="ticketWe"  value= 4 autocomplete="off"> 4
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option2" autocomplete="off"> 5
+                <input type="radio" name="ticketWe"  value= 5 autocomplete="off"> 5
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option3" autocomplete="off"> 6
+                <input type="radio" name="ticketWe"  value= 6 autocomplete="off"> 6
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option1" autocomplete="off" checked> 7
+                <input type="radio" name="ticketWe"  value= 7 autocomplete="off"> 7
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option2" autocomplete="off"> 8
+                <input type="radio" name="ticketWe"  value= 8 autocomplete="off"> 8
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option3" autocomplete="off"> 9
+                <input type="radio" name="ticketWe"  value= 9 autocomplete="off"> 9
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option1" autocomplete="off" checked> 10
+                <input type="radio" name="ticketWe"  value= 10 autocomplete="off"> 10
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option2" autocomplete="off"> 11
+                <input type="radio" name="ticketWe" value= 11 autocomplete="off"> 11
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option3" autocomplete="off"> 12
+                <input type="radio" name="ticketWe"  value= 12 autocomplete="off"> 12
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option1" autocomplete="off" checked> 13
+                <input type="radio" name="ticketWe"  value= 13 autocomplete="off"> 13
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option2" autocomplete="off"> 14
+                <input type="radio" name="ticketWe"  value= 14 autocomplete="off"> 14
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option3" autocomplete="off"> 15
+                <input type="radio" name="ticketWe"  value= 15 autocomplete="off"> 15
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option1" autocomplete="off" checked> 16
+                <input type="radio" name="ticketWe"  value= 16 autocomplete="off"> 16
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option2" autocomplete="off"> 17
+                <input type="radio" name="ticketWe"  value= 17 autocomplete="off"> 17
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option3" autocomplete="off"> 18
+                <input type="radio" name="ticketWe"  value= 18 autocomplete="off"> 18
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option1" autocomplete="off" checked> 19
+                <input type="radio" name="ticketWe"  value= 19 autocomplete="off"> 19
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option2" autocomplete="off"> 20
+                <input type="radio" name="ticketWe"  value= 20 autocomplete="off"> 20
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option3" autocomplete="off"> 21
+                <input type="radio" name="ticketWe"  value= 21 autocomplete="off"> 21
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option1" autocomplete="off" checked> 22
+                <input type="radio" name="ticketWe"  value= 22 autocomplete="off"> 22
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option2" autocomplete="off"> 23
+                <input type="radio" name="ticketWe"  value= 23 autocomplete="off"> 23
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option3" autocomplete="off"> 24
+                <input type="radio" name="ticketWe"  value= 24 autocomplete="off"> 24
             </label>
             <label class="btn btn-primary">
-                <input type="radio" name="ticketWe" id="option3" autocomplete="off"> 25
+                <input type="radio" name="ticketWe"  value= 25 autocomplete="off"> 25
             </label>
         </div>
         <br><br><br><br>
