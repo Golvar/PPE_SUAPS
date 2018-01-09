@@ -1,5 +1,9 @@
 <?php
     session_start();
+    if(empty($_SESSION['auth'])){
+      $_SESSION['flash']['danger']= "Vous n'avez pas accés à cette page !";
+      header('Location: login.php');
+  }
     require 'inc/header.php';
     require_once 'inc/db.php';
     date_default_timezone_set('UTC');
@@ -56,7 +60,7 @@
       </div>
       <div class="panel-body">
           <div class="from-group">
-            <label for="">Golfeur : </label>
+            <label for="">Invité : </label>
             <select class="form-control" name="golfeur">
               <?php for ($i=0; $i < sizeof($golfeur); $i++): ?>
               <option  value=i><?= $golfeur[$i]->NOM . " " . $golfeur[$i]->PRENOM ?></option>
