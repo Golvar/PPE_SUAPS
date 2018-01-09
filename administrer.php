@@ -19,7 +19,7 @@
       }elseif($_POST['admin']==0) {
         $type='Golfeur';
       }else {
-        $type='Inviter';
+        $type='Invité';
       }
 
       $req->execute([$_POST['nom'], $_POST['prenom'], $_POST['username'],$type, $_POST['admin'], $_POST['mail'], $_POST['phone'],  $password]);
