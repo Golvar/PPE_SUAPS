@@ -13,6 +13,13 @@ if(!empty($_POST['username']) && !empty($_POST['password'])){
     }elseif(password_verify($_POST['password'], $user->PASSWORD)){
         $_SESSION['auth'] = $user;
         $_SESSION['flash']['success'] = 'Vous êtes maintenant connecté';
+        if ($user->ADMIN == 1) {
+            $_SESSION['auth'] = $user;
+            $_SESSION['flash']['warning'] = 'Vous utilisez un compte administrateur. Pour vous inscrire utilisez votre compte golfeur.';
+        }elseif ($user->ADMIN == 2) {
+            $_SESSION['auth'] = $user;
+            $_SESSION['flash']['warning'] = 'Vous utilisez un compte invité. Celui-ci ne peut être utilisé que pour consultation.';
+        }
         header('Location: account.php');
         exit();
     }else{
