@@ -21,6 +21,7 @@
 ?>
 
 <h1>Votre compte</h1>
+<div class="row">
 <div class="col-lg-4">
     <div class="panel panel-primary">
       <div class="panel-heading">
@@ -72,6 +73,7 @@
           </div>
       </div>
     </div>
+</div>
 </div>
 
 

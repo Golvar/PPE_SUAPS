@@ -20,6 +20,7 @@
                 $req = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
                 $req->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
             }else {
+
                 echo "<div class='alert alert-dismissible alert-danger'>
                 <button type='button' class='close' data-dismiss='alert'>&times;</button>
                 <strong>ERREUR!</strong> 4 personnes ce sont déjà inscrite. Selectionnez une autre date.
@@ -37,6 +38,7 @@
     $req->execute();
     $listResa = $req->fetchAll();
 ?>
+
 
 <table class="table table-striped table-hover ">
     <thead>
