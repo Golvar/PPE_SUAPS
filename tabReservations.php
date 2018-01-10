@@ -74,7 +74,7 @@
         }
     }
 
-    $req= $pdo->prepare('SELECT NOM, DATERESERV FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
+    $req= $pdo->prepare('SELECT NOM, PRENOM, DATERESERV FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
     $req->execute();
     $listResa = $req->fetchAll();
 ?>
@@ -111,7 +111,7 @@
                 <td><?= $date->format('d l'); ?></td>
             <?php foreach($listResa as $key => $value): ?>
             <?php if($listResa[$key]->DATERESERV == $date->format('d/m/Y')): ?>
-                <td><?=$listResa[$key]->NOM; ?></td>
+                <td><?=$listResa[$key]->PRENOM . " " . $listResa[$key]->NOM; ?></td>
             <?php $tdlist++; ?>
             <?php endif; ?>
 
@@ -121,7 +121,11 @@
             <?php endfor; ?>
             <?php if ($_SESSION['auth']->ADMIN == 0) :?>
                 <form action="" method="post">
-                    <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
+                    <?php if ($j == 4) :?>
+                        <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary disabled">reserver</button></td>
+                    <?php else :?>
+                        <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
+                    <?php endif ?>
                 </form>
             <?php else :?>
                 <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary disabled">reserver</button></td>
