@@ -77,7 +77,7 @@
 
     }
 
-    $req= $pdo->prepare('SELECT NOM, PRENOM, DATERESERV FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
+    $req= $pdo->prepare('SELECT * FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
     $req->execute();
     $listResa = $req->fetchAll();
 ?>
@@ -113,8 +113,13 @@
             <?php endif;?>
             <?php $tdlist=0; ?>
                 <td><?= $date->format('d l'); ?></td>
+                <?php $inscrit = 0; ?>
             <?php foreach($listResa as $key => $value): ?>
             <?php if($listResa[$key]->DATERESERV == $date->format('d/m/Y')): ?>
+
+                <?php  if($listResa[$key]->IDUSER == $idUser) :?>
+                    <?php $inscrit = 1; ?>
+                <?php endif ?>
                 <td><?=$listResa[$key]->PRENOM . " " . $listResa[$key]->NOM; ?></td>
             <?php $tdlist++; ?>
             <?php endif; ?>
@@ -125,10 +130,14 @@
             <?php endfor; ?>
             <?php if ($_SESSION['auth']->ADMIN == 0) :?>
                 <form action="" method="post">
-                    <?php if ($j == 4) :?>
-                        <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary disabled">reserver</button></td>
+                    <?php if ($inscrit == 0) :?>
+                        <?php if ($j == 4) :?>
+                            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary disabled">reserver</button></td>
+                        <?php else :?>
+                            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
+                        <?php endif ?>
                     <?php else :?>
-                        <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
+                        <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
                     <?php endif ?>
                 </form>
             <?php else :?>
