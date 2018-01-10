@@ -14,10 +14,15 @@
     $weekend = $date->format('w');
 
     $req = $pdo->prepare('SELECT * FROM users WHERE ADMIN = 0');
-
     $req->execute();
     $golfeur = $req->fetchAll();
     $jour= $date->format('d l');
+
+    $idUser = $_SESSION['auth']->IDUSER;
+
+    $req = $pdo->prepare('SELECT * FROM users WHERE IDUSER = :iduser');
+    $req->execute(['iduser' => $idUser]);
+    $user = $req->fetch();
 ?>
 
 <h1>Votre compte</h1>
@@ -29,11 +34,11 @@
       </div>
       <div class="panel-body">
         <ul>
-          <li>Prénom : <?= $_SESSION['auth']->PRENOM ?></li>
-          <li>Nom : <?= $_SESSION['auth']->NOM ?> </li>
-          <li>Type : <?= $_SESSION['auth']->TYPE ?>  </li>
-          <li>Mail : <?= $_SESSION['auth']->MAIL ?>  </li>
-          <li>Téléphone : <?= $_SESSION['auth']->TELEPHONE ?> </li>
+          <li>Prénom : <?= $user->PRENOM ?></li>
+          <li>Nom : <?= $user->NOM ?> </li>
+          <li>Type : <?= $user->TYPE ?>  </li>
+          <li>Mail : <?= $user->MAIL ?>  </li>
+          <li>Téléphone : <?= $user->TELEPHONE ?> </li>
         </ul>
       </div>
     </div>
@@ -45,11 +50,11 @@
       </div>
       <div class="panel-body">
         <ul>
-          <li>Tickets SEM : <?= $_SESSION['auth']->TICKET_SEMAINE ?> </li>
-          <li>Tickets WE : <?= $_SESSION['auth']->TICKET_WE ?>  </li>
-          <li>Parcours : <?= $_SESSION['auth']->NBPARCOURS ?>  </li>
-          <li>Réservations : <?= $_SESSION['auth']->NBRESERVATION ?> </li>
-          <li>Invitations : <?= $_SESSION['auth']->NBINVITATION ?>  </li>
+          <li>Tickets SEM : <?= $user->TICKET_SEMAINE ?> </li>
+          <li>Tickets WE : <?= $user->TICKET_WE ?>  </li>
+          <li>Parcours : <?= $user->NBPARCOURS ?>  </li>
+          <li>Réservations : <?= $user->NBRESERVATION ?> </li>
+          <li>Invitations : <?= $user->NBINVITATION ?>  </li>
         </ul>
       </div>
     </div>
@@ -75,6 +80,7 @@
     </div>
 </div>
 </div>
+
 
 
 <?php require 'tabReservations.php'; ?>
