@@ -4,12 +4,12 @@ if(!empty($_POST)){
 
   $req = $pdo->prepare("INSERT INTO users SET NOM = ?, PRENOM = ?, USERNAME = ?,TYPE=?, ADMIN = ?, MAIL = ?, TELEPHONE = ?,  PASSWORD = ?");
   $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-  if ($_POST['admin']) {
-    $type= 'Administrateur';
+  if ($_POST['admin']==2) {
+    $type= 'Invité';
   }elseif($_POST['admin']==0) {
     $type='Golfeur';
   }else {
-    $type='Invité';
+    $type='Administrateur';
   }
 
   $req->execute([$_POST['nom'], $_POST['prenom'], $_POST['username'],$type, $_POST['admin'], $_POST['mail'], $_POST['phone'],  $password]);
