@@ -60,6 +60,7 @@
                 }
 
             }else {
+
                 echo "<div class='alert alert-dismissible alert-danger'>
                 <button type='button' class='close' data-dismiss='alert'>&times;</button>
                 <strong>ERREUR!</strong> 4 personnes ce sont déjà inscrite. Selectionnez une autre date.
@@ -77,6 +78,7 @@
     $req->execute();
     $listResa = $req->fetchAll();
 ?>
+
 
 <table class="table table-striped table-hover ">
     <thead>
