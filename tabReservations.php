@@ -2,10 +2,12 @@
 
     require_once 'inc/db.php';
     require_once 'inc/functions.php';
-    if(!empty($_POST['reserver'])){
-        $idUser = $_SESSION['auth']->IDUSER;
-        $DateReservation = $_POST['reserver'];
 
+
+
+    if(!empty($_POST['reserver'])){
+        $DateReservation = $_POST['reserver'];
+        header("Refresh: 0;url=account.php");
 
         $reqVerifDoublon = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
         $reqVerifDoublon->execute([$DateReservation,$idUser]);
@@ -72,12 +74,14 @@
             <strong>ERREUR!</strong> Vous vous êtent déjà inscrit à cette date. Si vous voulez ajouter un invité, annulez puis recommencez votre inscription.
             </div>";
         }
+
     }
 
     $req= $pdo->prepare('SELECT NOM, PRENOM, DATERESERV FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
     $req->execute();
     $listResa = $req->fetchAll();
 ?>
+
 
 
 <table class="table table-striped table-hover ">
