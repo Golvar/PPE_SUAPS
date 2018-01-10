@@ -7,7 +7,6 @@
 
     if(!empty($_POST['reserver'])){
         $DateReservation = $_POST['reserver'];
-        header("Refresh: 0;url=account.php");
 
         $reqVerifDoublon = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
         $reqVerifDoublon->execute([$DateReservation,$idUser]);
@@ -115,7 +114,7 @@
                 <td><?= $date->format('d l'); ?></td>
             <?php foreach($listResa as $key => $value): ?>
             <?php if($listResa[$key]->DATERESERV == $date->format('d/m/Y')): ?>
-                <td><?=$listResa[$key]->PRENOM . " " . $listResa[$key]->NOM; ?></td>
+                <td><?=substr($listResa[$key]->PRENOM,0,1) . ". " . $listResa[$key]->NOM; ?></td>
             <?php $tdlist++; ?>
             <?php endif; ?>
 
