@@ -96,6 +96,7 @@
         }else {
             $reSousTicketInvit->execute([1,0, $idUser]);
         }
+        header('Location: account.php');
     }
 
     if(!empty($_POST['inviteAnule'])){
@@ -112,6 +113,7 @@
         }else {
             $reqRecrediteTicketInvit->execute([1,0, $idUser]);
         }
+        header('Location: account.php');
     }
 
     if(!empty($_POST['dejainvite'])){
