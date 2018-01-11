@@ -12,7 +12,7 @@
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $DateReservation);
         $nbrReservDate = count($reqLesReservDate->fetchAll());
         if (!$doublon) {
-            if ($nbrReservDate<4) {
+            if ($nbrReservDate < 4) {
                 $reqRetraitTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ? WHERE IDUSER = ?");
                 if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
                     $reqNbTicketWe = $pdo->prepare('SELECT TICKET_WE FROM users WHERE IDUSER = ?');
@@ -76,6 +76,20 @@
     $req= $pdo->prepare('SELECT * FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
     $req->execute();
     $listResa = $req->fetchAll();
+
+    if(!empty($_POST['inviter'])){
+        $dateInvitation = $_POST['inviter'];
+
+        $reqInvitation = $pdo->prepare("UPDATE reservation SET USE_IDUSER = ? WHERE IDUSER = ? AND DATERESERV = ?");
+        $reqInvitation->execute([12,$idUser,$dateInvitation]);
+    }
+
+    if(!empty($_POST['inviteAnule'])){
+        $dateInvitation = $_POST['inviteAnule'];
+
+        $reqInvitation = $pdo->prepare("UPDATE reservation SET USE_IDUSER = ? WHERE IDUSER = ? AND DATERESERV = ?");
+        $reqInvitation->execute([null,$idUser,$dateInvitation]);
+    }
 ?>
 
 
@@ -111,12 +125,24 @@
             <?php $tdlist=0; ?>
                 <td><?= $date->format('d') . " " . $tabJourFr[$date->format('w')]; ?></td>
                 <?php $inscrit = 0; ?>
+                <?php $invite = 0; ?>
             <?php foreach($listResa as $key => $value): ?>
             <?php if($listResa[$key]->DATERESERV == $date->format('d/m/Y')): ?>
                 <?php  if($listResa[$key]->IDUSER == $idUser) :?>
                     <?php $inscrit = 1; ?>
                 <?php endif ?>
                 <td><?=substr($listResa[$key]->PRENOM,0,1) . ". " . $listResa[$key]->NOM; ?></td>
+                <?php if (!empty($listResa[$key]->USE_IDUSER)) :?>
+                    <?php
+                    $reqInvit= $pdo->prepare('SELECT * FROM users WHERE IDUSER = ?');
+                    $reqInvit->execute([$listResa[$key]->USE_IDUSER]);
+                    $ResaInvit = $reqInvit->fetch();
+                    $invite = 1;
+                    ?>
+                    <td><?=substr($ResaInvit->PRENOM,0,1) . ". " . $ResaInvit->NOM; ?></td>
+                    <?php $tdlist++; ?>
+                <?php endif ?>
+
             <?php $tdlist++; ?>
             <?php endif; ?>
 
@@ -129,15 +155,26 @@
                     <?php if ($inscrit == 0) :?>
                         <?php if ($j == 4) :?>
                             <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">reserver</button></td>
-                            <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
-
+                            <?php if ($invite == 0) :?>
+                                <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
+                            <?php else :?>
+                                <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                            <?php endif ?>
                         <?php else :?>
                             <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
-                            <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
+                            <?php if ($invite == 0) :?>
+                                <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
+                            <?php else :?>
+                                <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                            <?php endif ?>
                         <?php endif ?>
                     <?php else :?>
                         <td><button type="submit" name="annuler" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
-                        <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
+                        <?php if ($invite == 0) :?>
+                            <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
+                        <?php else :?>
+                            <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                        <?php endif ?>
                     <?php endif ?>
                 </form>
             <?php else :?>
