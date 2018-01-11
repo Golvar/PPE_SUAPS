@@ -5,30 +5,38 @@
       header('Location: login.php');
   }
 
-    require 'inc/header.php';
-    require 'inc/db.php';
+require 'inc/header.php';
+require 'inc/db.php';
 
-    date_default_timezone_set('UTC');
-    $DDay = new DateTime();
-    $date = new DateTime();
+date_default_timezone_set('UTC');
+$DDay = new DateTime();
+$date = new DateTime();
 
-    $mois = $date->format('n');
-    $weekend = $date->format('w');
+$mois = $date->format('n');
+$weekend = $date->format('w');
 
-    // Tableau pour les traductions française des DATE
-    $tabMoisFr = array(1 => 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre');
-    $tabJourFr = array(0 => 'Dimache', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi','Samedi' );
+// Tableau pour les traductions française des DATE
+$tabMoisFr = array(1 => 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre');
+$tabJourFr = array(0 => 'Dimache', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi','Samedi' );
 
-    $req = $pdo->prepare('SELECT * FROM users WHERE ADMIN = 0');
-    $req->execute();
-    $golfeur = $req->fetchAll();
-    $jour= $date->format('d l');
+$req = $pdo->prepare('SELECT * FROM users WHERE ADMIN = 0');
+$req->execute();
+$golfeur = $req->fetchAll();
+$jour= $date->format('d l');
 
-    $idUser = $_SESSION['auth']->IDUSER;
+$idUser = $_SESSION['auth']->IDUSER;
 
-    $req = $pdo->prepare('SELECT * FROM users WHERE IDUSER = :iduser');
-    $req->execute(['iduser' => $idUser]);
-    $user = $req->fetch();
+$req = $pdo->prepare('SELECT * FROM users WHERE IDUSER = :iduser');
+$req->execute(['iduser' => $idUser]);
+$user = $req->fetch();
+
+if(!empty($_POST)){
+    $idInvite = $_POST['golfeur'];
+}else {
+    $idInvite = $golfeur[0]->IDUSER;
+}
+
+
 ?>
 
 <h1>Votre compte</h1>
@@ -72,24 +80,32 @@
       </div>
       <div class="panel-body">
           <div class="from-group">
-            <label for="">Invité : </label>
-            <select class="form-control" name="golfeur">
+              <?php
+              $reqSelNomInvit = $pdo->prepare('SELECT NOM, PRENOM FROM users WHERE IDUSER = ?');
+              $reqSelNomInvit->execute([$idInvite]);
+
+              $result = $reqSelNomInvit->fetch();
+              ?>
+            <label for="">Invité : (selectionné : <?= $result->PRENOM . " " . $result->NOM ?>)</label>
+            <form action="" method="post">
+                <select class="form-control" name="golfeur">
               <?php for ($i=0; $i < sizeof($golfeur); $i++): ?>
-              <option  value=i><?= $golfeur[$i]->NOM . " " . $golfeur[$i]->PRENOM ?></option>
+                  <?php var_dump(($golfeur[$i]->NOM)) ?>
+              <option value= <?= $golfeur[$i]->IDUSER ?> > <?= $golfeur[$i]->NOM . " " . $golfeur[$i]->PRENOM ?> </option>
+              <?php var_dump($golfeur[$i]->IDUSER); ?>
             <?php endfor; ?>
             </select>
+
           </div>
           <div class="text-center">
-              <a href="#" class="btn btn-default" style="margin-top:10px;">Valider</a>
+              <button type="submit" name="test" class="btn btn-primary" style="margin-top:10px" >Selectionner</button>
           </div>
+          </form>
       </div>
     </div>
 </div>
 </div>
 
-
-
 <?php require 'tabReservations.php'; ?>
-
 
 <?php require 'inc/footer.php'; ?>

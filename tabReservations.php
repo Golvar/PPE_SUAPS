@@ -3,7 +3,6 @@
     require_once 'inc/db.php';
     require_once 'inc/functions.php';
 
-    $idInvite = 12;
     if(!empty($_POST['reserver'])){
         $DateReservation = $_POST['reserver'];
         $reqVerifDoublon = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
@@ -183,7 +182,7 @@
                         $dejaInvite = 1;
                     }
                     ?>
-                    <td><?=substr($ResaInvit->PRENOM,0,1) . ". " . $ResaInvit->NOM; ?></td>
+                    <td><FONT COLOR="#FF0000"><?=substr($ResaInvit->PRENOM,0,1) . ". " . $ResaInvit->NOM; ?></font></td>
                     <?php $tdlist++; ?>
                 <?php endif ?>
 
