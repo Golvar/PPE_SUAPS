@@ -6,7 +6,7 @@
   }
 
     require 'inc/header.php';
-    require_once 'inc/db.php';
+    require 'inc/db.php';
 
     date_default_timezone_set('UTC');
     $DDay = new DateTime();

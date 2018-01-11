@@ -21,7 +21,7 @@
                     $nbTicketWe = $resNbTicketWe->TICKET_WE;
                     if ($nbTicketWe > 0) {
                     $reqRetraitTicket->execute([0,1, $idUser]);
-                    $reqAjoutReserv = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
+                    $reqAjoutReserv = $pdo->prepare("INSERT INTO suaps reservation (IDRESERV, IDUSER, USE_IDUSER, DATEPREVU, DATERESERV) VALUES (NULL, ?, NULL, ?, ?)");
                     $reqAjoutReserv->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
                     }else {
                         echo "<div class='alert alert-dismissible alert-danger'>
@@ -38,6 +38,7 @@
                     $reqRetraitTicket->execute([1,0, $idUser]);
                     $reqAjoutReserv = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
                     $reqAjoutReserv->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
+                    header('Location: account.php');
                     }else {
                         echo "<div class='alert alert-dismissible alert-danger'>
                         <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -57,7 +58,7 @@
             <strong>ERREUR!</strong> Vous êtes déjà inscrit à cette date. Si vous voulez ajouter un invité, annulez puis recommencez votre inscription.
             </div>";
         }
-        header('Location: account.php');
+
     }
     if (!empty($_POST['annuler'])) {
         $dateAnnulation = $_POST['annuler'];
