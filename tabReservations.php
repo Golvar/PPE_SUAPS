@@ -112,16 +112,23 @@
                 <form action="" method="post">
                     <?php if ($inscrit == 0) :?>
                         <?php if ($j == 4) :?>
-                            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary disabled">reserver</button></td>
+                            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">reserver</button></td>
+                            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
+
                         <?php else :?>
                             <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
+                            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
                         <?php endif ?>
                     <?php else :?>
                         <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                        <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
                     <?php endif ?>
                 </form>
             <?php else :?>
                 <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary disabled">reserver</button></td>
+                <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
+
+
             <?php endif ?>
 
             </tr>
