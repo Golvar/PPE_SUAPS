@@ -63,6 +63,15 @@
 
         $reqAnnulation = $pdo->prepare('DELETE FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
         $reqAnnulation->execute([$dateAnnulation, $idUser]);
+
+        $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateAnnulation);
+
+        $reqRecreditéTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ? WHERE IDUSER = ?");
+        if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
+            $reqRecreditéTicket->execute([0,1, $idUser]);
+        }else {
+            $reqRecreditéTicket->execute([1,0, $idUser]);
+        }
     }
     $req= $pdo->prepare('SELECT * FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
     $req->execute();
@@ -127,13 +136,8 @@
                             <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
                         <?php endif ?>
                     <?php else :?>
-<<<<<<< HEAD
                         <td><button type="submit" name="annuler" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
-                        <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
-=======
-                        <td><button type="submit" name="Annuler" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
                         <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
->>>>>>> 8022571f9cac74b93e60cb5177142910e8985e97
                     <?php endif ?>
                 </form>
             <?php else :?>
