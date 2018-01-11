@@ -54,7 +54,7 @@
         }else {
             echo "<div class='alert alert-dismissible alert-danger'>
             <button type='button' class='close' data-dismiss='alert'>&times;</button>
-            <strong>ERREUR!</strong> Vous vous êtent déjà inscrit à cette date. Si vous voulez ajouter un invité, annulez puis recommencez votre inscription.
+            <strong>ERREUR!</strong> Vous êtes déjà inscrit à cette date. Si vous voulez ajouter un invité, annulez puis recommencez votre inscription.
             </div>";
         }
     }
@@ -68,7 +68,7 @@
 <table class="table table-striped table-hover ">
     <thead>
         <tr>
-            <th><?= $mois; ?> </th>
+            <th><?= $tabMoisFr[$mois]; ?> </th>
             <th>Joueur 1</th>
             <th>Joueur 2</th>
             <th>Joueur 3</th>
@@ -82,7 +82,7 @@
     </tbody>
         <thead>
             <tr>
-                <th><?=$date->format('F') ?></th>
+                <th><?= $tabMoisFr[$date->format('n')] ?></th>
             </tr>
         </thead>
         <tbody>
@@ -93,15 +93,14 @@
                 <tr>
             <?php endif;?>
             <?php $tdlist=0; ?>
-                <td><?= $date->format('d l'); ?></td>
+                <td><?= $date->format('d') . " " . $tabJourFr[$date->format('w')]; ?></td>
                 <?php $inscrit = 0; ?>
             <?php foreach($listResa as $key => $value): ?>
             <?php if($listResa[$key]->DATERESERV == $date->format('d/m/Y')): ?>
-
                 <?php  if($listResa[$key]->IDUSER == $idUser) :?>
                     <?php $inscrit = 1; ?>
                 <?php endif ?>
-                <td><?=$listResa[$key]->PRENOM . " " . $listResa[$key]->NOM; ?></td>
+                <td><?=substr($listResa[$key]->PRENOM,0,1) . ". " . $listResa[$key]->NOM; ?></td>
             <?php $tdlist++; ?>
             <?php endif; ?>
 
