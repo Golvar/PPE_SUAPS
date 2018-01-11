@@ -58,6 +58,12 @@
             </div>";
         }
     }
+    if (!empty($_POST['annuler'])) {
+        $dateAnnulation = $_POST['annuler'];
+
+        $reqAnnulation = $pdo->prepare('DELETE FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
+        $reqAnnulation->execute([$dateAnnulation, $idUser]);
+    }
     $req= $pdo->prepare('SELECT * FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
     $req->execute();
     $listResa = $req->fetchAll();
@@ -120,7 +126,7 @@
                             <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
                         <?php endif ?>
                     <?php else :?>
-                        <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                        <td><button type="submit" name="annuler" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
                         <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
                     <?php endif ?>
                 </form>
