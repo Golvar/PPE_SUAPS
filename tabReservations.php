@@ -1,38 +1,26 @@
-<?php
 
+<?php
     require_once 'inc/db.php';
     require_once 'inc/functions.php';
-
-
-
     if(!empty($_POST['reserver'])){
         $DateReservation = $_POST['reserver'];
-        header("Refresh: 0;url=account.php");
-
         $reqVerifDoublon = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
         $reqVerifDoublon->execute([$DateReservation,$idUser]);
         $doublon = $reqVerifDoublon->fetch();
-
         $reqLesReservDate = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ?');
         $reqLesReservDate->execute([$DateReservation]);
-
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $DateReservation);
-
         $nbrReservDate = count($reqLesReservDate->fetchAll());
-
         if (!$doublon) {
             if ($nbrReservDate<4) {
                 $reqRetraitTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ? WHERE IDUSER = ?");
                 if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
                     $reqNbTicketWe = $pdo->prepare('SELECT TICKET_WE FROM users WHERE IDUSER = ?');
                     $reqNbTicketWe->execute([$idUser]);
-
                     $resNbTicketWe = $reqNbTicketWe->fetch();
-
                     $nbTicketWe = $resNbTicketWe->TICKET_WE;
                     if ($nbTicketWe > 0) {
                     $reqRetraitTicket->execute([0,1, $idUser]);
-
                     $reqAjoutReserv = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
                     $reqAjoutReserv->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
                     }else {
@@ -44,13 +32,10 @@
                 }else {
                     $reqNbTicketSe = $pdo->prepare('SELECT TICKET_SEMAINE FROM users WHERE IDUSER = ?');
                     $reqNbTicketSe->execute([$idUser]);
-
                     $resNbTicketSe = $reqNbTicketSe->fetch();
-
                     $nbTicketSe = $resNbTicketSe->TICKET_SEMAINE;
                     if ($nbTicketSe > 0) {
                     $reqRetraitTicket->execute([1,0, $idUser]);
-
                     $reqAjoutReserv = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
                     $reqAjoutReserv->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
                     }else {
@@ -60,9 +45,7 @@
                         </div>";
                     }
                 }
-
             }else {
-
                 echo "<div class='alert alert-dismissible alert-danger'>
                 <button type='button' class='close' data-dismiss='alert'>&times;</button>
                 <strong>ERREUR!</strong> 4 personnes ce sont déjà inscrite. Selectionnez une autre date.
@@ -74,9 +57,7 @@
             <strong>ERREUR!</strong> Vous vous êtent déjà inscrit à cette date. Si vous voulez ajouter un invité, annulez puis recommencez votre inscription.
             </div>";
         }
-
     }
-
     $req= $pdo->prepare('SELECT * FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
     $req->execute();
     $listResa = $req->fetchAll();

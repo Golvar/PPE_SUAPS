@@ -4,8 +4,10 @@
       $_SESSION['flash']['danger']= "Vous n'avez pas accés à cette page !";
       header('Location: login.php');
   }
+
     require 'inc/header.php';
     require_once 'inc/db.php';
+
     date_default_timezone_set('UTC');
     $DDay = new DateTime();
     $date = new DateTime();
