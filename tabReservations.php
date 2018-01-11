@@ -22,7 +22,7 @@
                     $nbTicketWe = $resNbTicketWe->TICKET_WE;
                     if ($nbTicketWe > 0) {
                     $reqRetraitTicket->execute([0,1, $idUser]);
-                    $reqAjoutReserv = $pdo->prepare("INSERT INTO suaps reservation (IDRESERV, IDUSER, USE_IDUSER, DATEPREVU, DATERESERV) VALUES (NULL, ?, NULL, ?, ?)");
+                    $reqAjoutReserv = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
                     $reqAjoutReserv->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
                     }else {
                         echo "<div class='alert alert-dismissible alert-danger'>
@@ -224,7 +224,13 @@
                             <td><button type="submit" name="annuler" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
                         </form>
                         <?php if ($j == 4) :?>
+                            <?php if ($invite == 0) :?>
                                 <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
+                            <?php else :?>
+                                <form action="" method="post">
+                                    <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                                </form>
+                            <?php endif ?>
                         <?php else :?>
                             <?php if ($invite == 0) :?>
                                 <?php if ($dejaInscrit == 0) :?>

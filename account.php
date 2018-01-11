@@ -30,7 +30,7 @@ $req = $pdo->prepare('SELECT * FROM users WHERE IDUSER = :iduser');
 $req->execute(['iduser' => $idUser]);
 $user = $req->fetch();
 
-if(!empty($_POST)){
+if(!empty($_POST['validerInvite'])){
     $idInvite = $_POST['golfeur'];
 }else {
     $idInvite = $golfeur[0]->IDUSER;
@@ -98,7 +98,7 @@ if(!empty($_POST)){
 
           </div>
           <div class="text-center">
-              <button type="submit" name="test" class="btn btn-primary" style="margin-top:10px" >Selectionner</button>
+              <button type="submit" name="validerInvite" class="btn btn-primary" style="margin-top:10px" >Selectionner</button>
           </div>
           </form>
       </div>
