@@ -80,6 +80,7 @@
             <th>Joueur 3</th>
             <th>Joueur 4</th>
             <th>Reservation</th>
+            <th>Invitation</th>
         </tr>
     </thead>
     <tbody>
@@ -119,20 +120,25 @@
                     <?php if ($inscrit == 0) :?>
                         <?php if ($j == 4) :?>
                             <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">reserver</button></td>
-                            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
+                            <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
 
                         <?php else :?>
                             <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
-                            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
+                            <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
                         <?php endif ?>
                     <?php else :?>
+<<<<<<< HEAD
                         <td><button type="submit" name="annuler" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
                         <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
+=======
+                        <td><button type="submit" name="Annuler" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                        <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
+>>>>>>> 8022571f9cac74b93e60cb5177142910e8985e97
                     <?php endif ?>
                 </form>
             <?php else :?>
                 <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary disabled">reserver</button></td>
-                <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
+                <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
 
 
             <?php endif ?>
