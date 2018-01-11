@@ -12,8 +12,12 @@
     $DDay = new DateTime();
     $date = new DateTime();
 
-    $mois = $date->format('F');
+    $mois = $date->format('n');
     $weekend = $date->format('w');
+
+    // Tableau pour les traductions française des DATE
+    $tabMoisFr = array(1 => 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre');
+    $tabJourFr = array(0 => 'Dimache', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi','Samedi' );
 
     $req = $pdo->prepare('SELECT * FROM users WHERE ADMIN = 0');
     $req->execute();
