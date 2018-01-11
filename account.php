@@ -98,7 +98,7 @@ if(!empty($_POST['validerInvite'])){
 
           </div>
           <div class="text-center">
-              <button type="submit" name="validerInvite" class="btn btn-primary" style="margin-top:10px" >Selectionner</button>
+              <button type="submit" name="validerInvite" value = 1 class="btn btn-primary" style="margin-top:10px" >Selectionner</button>
           </div>
           </form>
       </div>
