@@ -82,6 +82,15 @@
 
         $reqInvitation = $pdo->prepare("UPDATE reservation SET USE_IDUSER = ? WHERE IDUSER = ? AND DATERESERV = ?");
         $reqInvitation->execute([12,$idUser,$dateInvitation]);
+
+        $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateInvitation);
+
+        $reSousTicketInvit = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ? WHERE IDUSER = ?");
+        if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
+            $reSousTicketInvit->execute([0,1, $idUser]);
+        }else {
+            $reSousTicketInvit->execute([1,0, $idUser]);
+        }
     }
 
     if(!empty($_POST['inviteAnule'])){
@@ -89,6 +98,15 @@
 
         $reqInvitation = $pdo->prepare("UPDATE reservation SET USE_IDUSER = ? WHERE IDUSER = ? AND DATERESERV = ?");
         $reqInvitation->execute([null,$idUser,$dateInvitation]);
+
+        $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateInvitation);
+
+        $reqRecrediteTicketInvit = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE + ?, TICKET_WE = TICKET_WE + ? WHERE IDUSER = ?");
+        if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
+            $reqRecrediteTicketInvit->execute([0,1, $idUser]);
+        }else {
+            $reqRecrediteTicketInvit->execute([1,0, $idUser]);
+        }
     }
 ?>
 
@@ -151,32 +169,42 @@
                 <td></td>
             <?php endfor; ?>
             <?php if ($_SESSION['auth']->ADMIN == 0) :?>
-                <form action="" method="post">
                     <?php if ($inscrit == 0) :?>
                         <?php if ($j == 4) :?>
                             <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">reserver</button></td>
                             <?php if ($invite == 0) :?>
                                 <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
                             <?php else :?>
-                                <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                                <form action="" method="post">
+                                    <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                                </form>
                             <?php endif ?>
                         <?php else :?>
-                            <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
+                            <form action="" method="post">
+                                <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">reserver</button></td>
+                            </form>
                             <?php if ($invite == 0) :?>
                                 <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
                             <?php else :?>
-                                <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                                <form action="" method="post">
+                                    <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                                </form>
                             <?php endif ?>
                         <?php endif ?>
                     <?php else :?>
-                        <td><button type="submit" name="annuler" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                        <form action="" method="post">
+                            <td><button type="submit" name="annuler" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                        </form>
                         <?php if ($invite == 0) :?>
-                            <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
+                            <form action="" method="post">
+                                <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary">Inviter</button></td>
+                            </form>
                         <?php else :?>
-                            <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                            <form action="" method="post">
+                                <td><button type="submit" name="inviteAnule" value=<?= $date->format('d/m/Y') ?> class="btn btn-warning">Annuler</button></td>
+                            </form>
                         <?php endif ?>
                     <?php endif ?>
-                </form>
             <?php else :?>
                 <td><button type="submit" name="reserver" value=<?= $date->format('d/m/Y') ?> class="btn btn-primary disabled">reserver</button></td>
                 <td><button type="submit" name="inviter" value=<?= $date->format('d/m/Y') ?> class="btn btn-default disabled">Inviter</button></td>
