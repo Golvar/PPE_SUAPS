@@ -57,6 +57,7 @@
             <strong>ERREUR!</strong> Vous êtes déjà inscrit à cette date. Si vous voulez ajouter un invité, annulez puis recommencez votre inscription.
             </div>";
         }
+        header('Location: account.php');
     }
     if (!empty($_POST['annuler'])) {
         $dateAnnulation = $_POST['annuler'];
@@ -72,6 +73,7 @@
         }else {
             $reqRecreditéTicket->execute([1,0, $idUser]);
         }
+        header('Location: account.php');
     }
     $req= $pdo->prepare('SELECT * FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
     $req->execute();
