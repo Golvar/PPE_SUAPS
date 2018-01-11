@@ -66,7 +66,7 @@
 
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateAnnulation);
 
-        $reqRecreditéTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ? WHERE IDUSER = ?");
+        $reqRecreditéTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE + ?, TICKET_WE = TICKET_WE + ? WHERE IDUSER = ?");
         if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
             $reqRecreditéTicket->execute([0,1, $idUser]);
         }else {
