@@ -1,8 +1,6 @@
-
 <?php
     require_once 'inc/db.php';
     require_once 'inc/functions.php';
-
     if(!empty($_POST['reserver'])){
         $DateReservation = $_POST['reserver'];
         $reqVerifDoublon = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
@@ -24,6 +22,7 @@
                     $reqRetraitTicket->execute([0,1, $idUser]);
                     $reqAjoutReserv = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
                     $reqAjoutReserv->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
+                    header('Location: account.php');
                     }else {
                         echo "<div class='alert alert-dismissible alert-danger'>
                         <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -59,16 +58,12 @@
             <strong>ERREUR!</strong> Vous êtes déjà inscrit à cette date. Si vous voulez ajouter un invité, annulez puis recommencez votre inscription.
             </div>";
         }
-
     }
     if (!empty($_POST['annuler'])) {
         $dateAnnulation = $_POST['annuler'];
-
         $reqAnnulation = $pdo->prepare('DELETE FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
         $reqAnnulation->execute([$dateAnnulation, $idUser]);
-
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateAnnulation);
-
         $reqRecreditéTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE + ?, TICKET_WE = TICKET_WE + ? WHERE IDUSER = ?");
         if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
             $reqRecreditéTicket->execute([0,1, $idUser]);
@@ -80,15 +75,11 @@
     $req= $pdo->prepare('SELECT * FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
     $req->execute();
     $listResa = $req->fetchAll();
-
     if(!empty($_POST['inviter'])){
         $dateInvitation = $_POST['inviter'];
-
         $reqInvitation = $pdo->prepare("UPDATE reservation SET USE_IDUSER = ? WHERE IDUSER = ? AND DATERESERV = ?");
         $reqInvitation->execute([$idInvite,$idUser,$dateInvitation]);
-
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateInvitation);
-
         $reSousTicketInvit = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ? WHERE IDUSER = ?");
         if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
             $reSousTicketInvit->execute([0,1, $idUser]);
@@ -97,15 +88,11 @@
         }
         header('Location: account.php');
     }
-
     if(!empty($_POST['inviteAnule'])){
         $dateInvitation = $_POST['inviteAnule'];
-
         $reqInvitation = $pdo->prepare("UPDATE reservation SET USE_IDUSER = ? WHERE IDUSER = ? AND DATERESERV = ?");
         $reqInvitation->execute([null,$idUser,$dateInvitation]);
-
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateInvitation);
-
         $reqRecrediteTicketInvit = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE + ?, TICKET_WE = TICKET_WE + ? WHERE IDUSER = ?");
         if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
             $reqRecrediteTicketInvit->execute([0,1, $idUser]);
@@ -114,7 +101,6 @@
         }
         header('Location: account.php');
     }
-
     if(!empty($_POST['dejainvite'])){
         echo "<div class='alert alert-dismissible alert-danger'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>

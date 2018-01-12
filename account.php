@@ -1,42 +1,33 @@
+
 <?php
     session_start();
     if(empty($_SESSION['auth'])){
       $_SESSION['flash']['danger']= "Vous n'avez pas accés à cette page !";
       header('Location: login.php');
   }
-
 require 'inc/header.php';
 require 'inc/db.php';
-
 date_default_timezone_set('UTC');
 $DDay = new DateTime();
 $date = new DateTime();
-
 $mois = $date->format('n');
 $weekend = $date->format('w');
-
 // Tableau pour les traductions française des DATE
 $tabMoisFr = array(1 => 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre');
 $tabJourFr = array(0 => 'Dimache', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi','Samedi' );
-
 $req = $pdo->prepare('SELECT * FROM users WHERE ADMIN = 0');
 $req->execute();
 $golfeur = $req->fetchAll();
 $jour= $date->format('d l');
-
 $idUser = $_SESSION['auth']->IDUSER;
-
 $req = $pdo->prepare('SELECT * FROM users WHERE IDUSER = :iduser');
 $req->execute(['iduser' => $idUser]);
 $user = $req->fetch();
-
 if(!empty($_POST['validerInvite'])){
     $idInvite = $_POST['golfeur'];
 }else {
     $idInvite = $golfeur[0]->IDUSER;
 }
-
-
 ?>
 
 <h1>Votre compte</h1>
@@ -81,18 +72,20 @@ if(!empty($_POST['validerInvite'])){
       <div class="panel-body">
           <div class="from-group">
               <?php
-              $reqSelNomInvit = $pdo->prepare('SELECT NOM, PRENOM FROM users WHERE IDUSER = ?');
+              $reqSelNomInvit = $pdo->prepare('SELECT NOM, PRENOM, IDUSER FROM users WHERE IDUSER = ?');
               $reqSelNomInvit->execute([$idInvite]);
-
               $result = $reqSelNomInvit->fetch();
               ?>
             <label for="">Invité : (selectionné : <?= $result->PRENOM . " " . $result->NOM ?>)</label>
             <form action="" method="post">
                 <select class="form-control" name="golfeur">
               <?php for ($i=0; $i < sizeof($golfeur); $i++): ?>
-                  <?php var_dump(($golfeur[$i]->NOM)) ?>
-              <option value= <?= $golfeur[$i]->IDUSER ?> > <?= $golfeur[$i]->NOM . " " . $golfeur[$i]->PRENOM ?> </option>
-              <?php var_dump($golfeur[$i]->IDUSER); ?>
+                <?php if($result->IDUSER == $golfeur[$i]->IDUSER) :?>
+                  <option value= <?= $golfeur[$i]->IDUSER ?> selected> <?= $golfeur[$i]->NOM . " " . $golfeur[$i]->PRENOM ?> </option>
+                <?php else :?>
+                  <option value= <?= $golfeur[$i]->IDUSER ?> > <?= $golfeur[$i]->NOM . " " . $golfeur[$i]->PRENOM ?> </option>
+                <?php endif; ?>
+
             <?php endfor; ?>
             </select>
 
