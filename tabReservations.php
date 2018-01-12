@@ -12,14 +12,14 @@
         $nbrReservDate = count($reqLesReservDate->fetchAll());
         if (!$doublon) {
             if ($nbrReservDate < 4) {
-                $reqRetraitTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ? WHERE IDUSER = ?");
+                $reqRetraitTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ?, NBRESERVATION = NBRESERVATION + ? WHERE IDUSER = ?");
                 if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
                     $reqNbTicketWe = $pdo->prepare('SELECT TICKET_WE FROM users WHERE IDUSER = ?');
                     $reqNbTicketWe->execute([$idUser]);
                     $resNbTicketWe = $reqNbTicketWe->fetch();
                     $nbTicketWe = $resNbTicketWe->TICKET_WE;
                     if ($nbTicketWe > 0) {
-                    $reqRetraitTicket->execute([0,1, $idUser]);
+                    $reqRetraitTicket->execute([0,1,1, $idUser]);
                     $reqAjoutReserv = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
                     $reqAjoutReserv->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
                     header('Location: account.php');
@@ -35,7 +35,7 @@
                     $resNbTicketSe = $reqNbTicketSe->fetch();
                     $nbTicketSe = $resNbTicketSe->TICKET_SEMAINE;
                     if ($nbTicketSe > 0) {
-                    $reqRetraitTicket->execute([1,0, $idUser]);
+                    $reqRetraitTicket->execute([1,0,1, $idUser]);
                     $reqAjoutReserv = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
                     $reqAjoutReserv->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
                     header('Location: account.php');
@@ -64,11 +64,11 @@
         $reqAnnulation = $pdo->prepare('DELETE FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
         $reqAnnulation->execute([$dateAnnulation, $idUser]);
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateAnnulation);
-        $reqRecreditéTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE + ?, TICKET_WE = TICKET_WE + ? WHERE IDUSER = ?");
+        $reqRecreditéTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE + ?, TICKET_WE = TICKET_WE + ?, NBRESERVATION = NBRESERVATION - ? WHERE IDUSER = ?");
         if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
-            $reqRecreditéTicket->execute([0,1, $idUser]);
+            $reqRecreditéTicket->execute([0,1,1, $idUser]);
         }else {
-            $reqRecreditéTicket->execute([1,0, $idUser]);
+            $reqRecreditéTicket->execute([1,0,1, $idUser]);
         }
         header('Location: account.php');
     }
@@ -80,11 +80,11 @@
         $reqInvitation = $pdo->prepare("UPDATE reservation SET USE_IDUSER = ? WHERE IDUSER = ? AND DATERESERV = ?");
         $reqInvitation->execute([$idInvite,$idUser,$dateInvitation]);
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateInvitation);
-        $reSousTicketInvit = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ? WHERE IDUSER = ?");
+        $reSousTicketInvit = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE - ?, TICKET_WE = TICKET_WE - ?, NBINVITATION = NBINVITATION + ? WHERE IDUSER = ?");
         if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
-            $reSousTicketInvit->execute([0,1, $idUser]);
+            $reSousTicketInvit->execute([0,1,1, $idUser]);
         }else {
-            $reSousTicketInvit->execute([1,0, $idUser]);
+            $reSousTicketInvit->execute([1,0,1, $idUser]);
         }
         header('Location: account.php');
     }
@@ -93,11 +93,11 @@
         $reqInvitation = $pdo->prepare("UPDATE reservation SET USE_IDUSER = ? WHERE IDUSER = ? AND DATERESERV = ?");
         $reqInvitation->execute([null,$idUser,$dateInvitation]);
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateInvitation);
-        $reqRecrediteTicketInvit = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE + ?, TICKET_WE = TICKET_WE + ? WHERE IDUSER = ?");
+        $reqRecrediteTicketInvit = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE + ?, TICKET_WE = TICKET_WE + ?, NBINVITATION = NBINVITATION - ? WHERE IDUSER = ?");
         if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
-            $reqRecrediteTicketInvit->execute([0,1, $idUser]);
+            $reqRecrediteTicketInvit->execute([0,1,1, $idUser]);
         }else {
-            $reqRecrediteTicketInvit->execute([1,0, $idUser]);
+            $reqRecrediteTicketInvit->execute([1,0,1, $idUser]);
         }
         header('Location: account.php');
     }
