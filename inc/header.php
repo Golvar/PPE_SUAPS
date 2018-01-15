@@ -19,13 +19,20 @@
 
   <body>
 
-    <div class="navbar navbar-default">
-      <div class="navbar-inner">
+    <nav class="navbar navbar-default">
         <div class="container">
-          <a class ="navbar-brand" href="account.php">Suaps</a>
-          <div class="collapse navbar-collapse">
+          <div class="navbar-header">
+            <a class ="navbar-brand" href="account.php">Suaps</a>
+            <!-- Affiche le bouton qui permet de scroll en mode portable -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="true">
+              <span class="sr-only">Navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+             </button>
+          </div>
+          <div class="navbar-collapse collapse in" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
             <ul class="nav navbar-nav">
-
               <?php if (isset($_SESSION['auth'])):?>
                 <li><a href="help.php">Aide</a></li>
                 <li><a href="contact.php">Contact</a></li>
@@ -46,8 +53,7 @@
             </ul>
           </div>
         </div>
-      </div>
-   </div>
+  </nav>
 
 
     <div class="container">
