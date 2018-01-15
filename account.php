@@ -20,12 +20,18 @@ $req->execute();
 $golfeur = $req->fetchAll();
 $jour= $date->format('d l');
 $idUser = $_SESSION['auth']->IDUSER;
+
 $req = $pdo->prepare('SELECT * FROM users WHERE IDUSER = :iduser');
 $req->execute(['iduser' => $idUser]);
 $user = $req->fetch();
+
 $reqNbAnnulation = $pdo->prepare('SELECT COUNT(IDRESERV) AS nbAnnul FROM reservation  WHERE IDUSER = ? AND ANNULER =1');
 $reqNbAnnulation->execute([$idUser]);
 $nbAnnulation = (int) $reqNbAnnulation->fetch()->nbAnnul;
+
+$reqNbParcours = $pdo->prepare('SELECT COUNT(IDRESERV) AS nbParcours FROM reservation WHERE IDUSER = ? AND DATERESERV < ? ');
+$reqNbParcours->execute([$idUser, $DDay->format('d/m/Y')]);
+$nbParcours =(int) $reqNbParcours->fetch()->nbParcours;
 
 if(!empty($_POST['validerInvite'])){
     $idInvite = $_POST['golfeur'];
@@ -61,7 +67,7 @@ if(!empty($_POST['validerInvite'])){
         <ul>
           <li>Tickets SEM : <?= $user->TICKET_SEMAINE ?> </li>
           <li>Tickets WE : <?= $user->TICKET_WE ?>  </li>
-          <li>Parcours : <?= $user->NBPARCOURS ?>  </li>
+          <li>Parcours : <?= $nbParcours ?>  </li>
           <li>Réservations : <?= $user->NBRESERVATION ?> </li>
           <li>Invitations : <?= $user->NBINVITATION ?>  </li>
           <li>Annulations : <?= $nbAnnulation ?></li>
