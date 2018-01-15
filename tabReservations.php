@@ -2,7 +2,6 @@
     require_once 'inc/db.php';
     require_once 'inc/functions.php';
     if(!empty($_POST['reserver'])){
-
         $reqNbReservEnCours = $pdo->prepare('SELECT COUNT(IDRESERV) AS nbReserv FROM reservation WHERE IDUSER = ? AND DATERESERV >= ?AND ANNULER = 0');
         $reqNbReservEnCours->execute([$idUser, $DDay->format('d/m/Y')]);
 
@@ -11,10 +10,10 @@
         if ($nbReserv < 2) {
 
             $DateReservation = $_POST['reserver'];
-            $reqVerifDoublon = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
+            $reqVerifDoublon = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ? AND IDUSER = ? AND ANNULER = 0');
             $reqVerifDoublon->execute([$DateReservation,$idUser]);
             $doublon = $reqVerifDoublon->fetch();
-            $reqLesReservDate = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ?');
+            $reqLesReservDate = $pdo->prepare('SELECT * FROM reservation WHERE DATERESERV = ? AND ANNULER = 0');
             $reqLesReservDate->execute([$DateReservation]);
             $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $DateReservation);
             $nbrReservDate = count($reqLesReservDate->fetchAll());
@@ -36,7 +35,7 @@
                             <button type='button' class='close' data-dismiss='alert'>&times;</button>
                             <strong>ERREUR!</strong> Vous n'avez plus de ticket week-end.
                             </div>";
-                        }
+                        }        
                     }else {
                         $reqNbTicketSe = $pdo->prepare('SELECT TICKET_SEMAINE FROM users WHERE IDUSER = ?');
                         $reqNbTicketSe->execute([$idUser]);
@@ -75,8 +74,8 @@
         }
     if (!empty($_POST['annuler'])) {
         $dateAnnulation = $_POST['annuler'];
-        $reqAnnulation = $pdo->prepare('DELETE FROM reservation WHERE DATERESERV = ? AND IDUSER = ?');
-        $reqAnnulation->execute([$dateAnnulation, $idUser]);
+        $reqAnnulation = $pdo->prepare('UPDATE reservation SET ANNULER= ? WHERE DATERESERV = ? AND IDUSER = ?');
+        $reqAnnulation->execute([1,$dateAnnulation, $idUser]);
         $DateReservationFormat = DateTime::createFromFormat('d/m/Y', $dateAnnulation);
         $reqRecreditéTicket = $pdo->prepare("UPDATE users SET TICKET_SEMAINE = TICKET_SEMAINE + ?, TICKET_WE = TICKET_WE + ?, NBRESERVATION = NBRESERVATION - ? WHERE IDUSER = ?");
         if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w') == 6) {
@@ -86,7 +85,7 @@
         }
         header('Location: account.php');
     }
-    $req= $pdo->prepare('SELECT * FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER');
+    $req= $pdo->prepare('SELECT * FROM users INNER JOIN reservation ON users.IDUSER = reservation.IDUSER AND reservation.annuler = 0');
     $req->execute();
     $listResa = $req->fetchAll();
     if(!empty($_POST['inviter'])){

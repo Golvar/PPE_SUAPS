@@ -34,7 +34,6 @@
           <div class="navbar-collapse collapse in" id="bs-example-navbar-collapse-1" aria-expanded="true" style="">
             <ul class="nav navbar-nav">
               <?php if (isset($_SESSION['auth'])):?>
-                <li><a href="help.php">Aide</a></li>
                 <li><a href="contact.php">Contact</a></li>
                 <li><a href="logout.php">Deconnexion</a></li>
                 <?php if ($_SESSION['auth']->ADMIN == 1):?>

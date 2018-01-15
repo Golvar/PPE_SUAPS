@@ -23,6 +23,10 @@ $idUser = $_SESSION['auth']->IDUSER;
 $req = $pdo->prepare('SELECT * FROM users WHERE IDUSER = :iduser');
 $req->execute(['iduser' => $idUser]);
 $user = $req->fetch();
+$reqNbAnnulation = $pdo->prepare('SELECT COUNT(IDRESERV) AS nbAnnul FROM reservation  WHERE IDUSER = ? AND ANNULER =1');
+$reqNbAnnulation->execute([$idUser]);
+$nbAnnulation = (int) $reqNbAnnulation->fetch()->nbAnnul;
+
 if(!empty($_POST['validerInvite'])){
     $idInvite = $_POST['golfeur'];
 }else {
@@ -30,7 +34,7 @@ if(!empty($_POST['validerInvite'])){
 }
 ?>
 
-<h1>Votre compte</h1>
+<h1>Golf de la Wantzenau</h1>
 <div class="row">
 <div class="col-lg-4">
     <div class="panel panel-primary">
@@ -60,6 +64,7 @@ if(!empty($_POST['validerInvite'])){
           <li>Parcours : <?= $user->NBPARCOURS ?>  </li>
           <li>Réservations : <?= $user->NBRESERVATION ?> </li>
           <li>Invitations : <?= $user->NBINVITATION ?>  </li>
+          <li>Annulations : <?= $nbAnnulation ?></li>
         </ul>
       </div>
     </div>
