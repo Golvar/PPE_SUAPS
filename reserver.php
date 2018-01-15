@@ -42,7 +42,7 @@ if ($nbReserv < 2) {
                 $reqRetraitTicket->execute([1,0,1, $idUser]);
                 $reqAjoutReserv = $pdo->prepare('INSERT INTO `suaps`.`reservation` (`IDRESERV`, `IDUSER`, `USE_IDUSER`, `DATEPREVU`, `DATERESERV`) VALUES (NULL, ?, NULL, ?, ?)');
                 $reqAjoutReserv->execute([$idUser, $DDay->format('d/m/Y'), $DateReservation]);
-                
+                header('Location: account.php');
 
                 }else {
                     echo "<div class='alert alert-dismissible alert-danger'>

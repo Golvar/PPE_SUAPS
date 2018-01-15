@@ -1,10 +1,11 @@
 <?php
     require_once 'inc/db.php';
     require_once 'inc/functions.php';
+
     if(!empty($_POST['reserver'])){
         require 'reserver.php';
-
     }
+
     if (!empty($_POST['annuler'])) {
         require 'annuler.php';
     }
@@ -18,7 +19,7 @@
     }
 
     if(!empty($_POST['inviteAnule'])){
-        require 'inviter.php';
+        require 'inviteAnnul.php';
     }
 
     if(!empty($_POST['dejainvite'])){

@@ -9,5 +9,5 @@ if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w
 }else {
     $reqRecrediteTicketInvit->execute([1,0,1, $idUser]);
 }
-
+header('Location: account.php');
 ?>
