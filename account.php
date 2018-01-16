@@ -40,6 +40,8 @@ $nbAnnulation = (int) $reqNbAnnulation->fetch()->nbAnnul;
 if(!empty($_POST['validerInvite'])){
     $_SESSION['auth']->idInvite = $_POST['golfeur'];
 }
+
+
 ?>
 
 <h1>Golf de la Wantzenau</h1>
@@ -104,7 +106,7 @@ if(!empty($_POST['validerInvite'])){
 
           </div>
           <div class="text-center">
-              <button type="submit" name="validerInvite" value = 1 class="btn btn-primary" style="margin-top:10px" >Selectionner</button>
+              <button type="butom" name="validerInvite" value = 1 class="btn btn-primary" style="margin-top:10px" >Selectionner</button>
           </div>
           </form>
       </div>
