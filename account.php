@@ -42,7 +42,7 @@ if(!empty($_POST['validerInvite'])){
 }else {
     $idInvite = $golfeur[0]->IDUSER;
 }
- var_dump($idInvite);
+
 
 ?>
 
