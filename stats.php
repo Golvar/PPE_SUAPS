@@ -1,11 +1,17 @@
 <?php require 'administrer.php';
 
 require_once 'inc/db.php';
-  $req = $pdo->prepare('SELECT * FROM users');
-  $req->execute();
-  $allUsers=$req->fetchAll();
+  $reqNbUser = $pdo->prepare('SELECT * FROM users');
+  $reqNbUser->execute();
+  $allUsers=$reqNbUser->fetchAll();
 
   $nombreUsers = count($allUsers);
+
+  $reqNbInvite = $pdo->prepare('SELECT * FROM users WHERE ADMIN=2');
+  $reqNbInvite->execute();
+  $allUsersInvite=$reqNbInvite->fetchAll();
+
+  $nombreInvite = count($allUsersInvite);
 
 ?>
 <br><br>
@@ -15,8 +21,8 @@ require_once 'inc/db.php';
   </div>
 <div class="panel-body">
   <ul>
-    <li>Nombre de golfeur  : <?= $nombreUsers ?> </li>
-    <li>Nombre d'invité  : <?= $nombreUsers ?>  </li>
+    <li>Nombre de golfeurs  : <?= $nombreUsers ?> </li>
+    <li>Nombre d'invités  : <?= $nombreInvite ?>  </li>
   </ul>
 </div>
 </div>

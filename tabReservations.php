@@ -1,5 +1,4 @@
 <?php
-
     require_once 'inc/db.php';
     require_once 'inc/functions.php';
 
@@ -28,6 +27,12 @@
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
         <strong>ERREUR!</strong> Un autre joueur vous a déjà invité. Pour annuler votre présence rapprochez vous de ce joueur.
         </div>";
+    }
+
+    if(!empty($_POST['suivant'])){
+      $date->modify('+15days');
+    }elseif (!empty($_POST['precedent'])) {
+      $date->modify('-15days');
     }
 ?>
 
@@ -71,7 +76,7 @@
                  ?>
             <?php foreach($listResa as $key => $value): ?>
             <?php if($listResa[$key]->DATERESERV == $date->format('d/m/Y')): ?>
-                <?php if ($listResa[$key]->IDUSER == $idInvite || $listResa[$key]->USE_IDUSER == $idInvite) {
+                <?php if ($listResa[$key]->IDUSER == $_SESSION['auth']->idInvite  || $listResa[$key]->USE_IDUSER == $_SESSION['auth']->idInvite ) {
                     $dejaInscrit = 1;
                 }?>
                 <?php  if($listResa[$key]->IDUSER == $idUser) :?>
@@ -169,3 +174,9 @@
         <?php endfor; ?>
     </tbody>
 </table>
+<div class="next-before">
+  <form  method="post">
+    <button style="display:inline-block;" type="submit" name="precedent" value=1  class="btn btn-primary">Précèdent</button>
+    <button style="display:inline-block;"  type="submit" name="suivant" value=1  class="btn btn-primary">Suivant</button>
+  </form>
+</div>

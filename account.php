@@ -38,9 +38,7 @@ $nbAnnulation = (int) $reqNbAnnulation->fetch()->nbAnnul;
 
 
 if(!empty($_POST['validerInvite'])){
-    $idInvite = $_POST['golfeur'];
-}else {
-    $idInvite = $golfeur[0]->IDUSER;
+    $_SESSION['auth']->idInvite = $_POST['golfeur'];
 }
 ?>
 
@@ -88,7 +86,7 @@ if(!empty($_POST['validerInvite'])){
           <div class="from-group">
               <?php
               $reqSelNomInvit = $pdo->prepare('SELECT NOM, PRENOM, IDUSER FROM users WHERE IDUSER = ?');
-              $reqSelNomInvit->execute([$idInvite]);
+              $reqSelNomInvit->execute([$_SESSION['auth']->idInvite ]);
               $result = $reqSelNomInvit->fetch();
               ?>
             <label for="">Invité : (selectionné : <?= $result->PRENOM . " " . $result->NOM ?>)</label>

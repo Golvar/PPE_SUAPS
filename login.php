@@ -13,6 +13,7 @@ if(!empty($_POST['username']) && !empty($_POST['password'])){
     }elseif(password_verify($_POST['password'], $user->PASSWORD)){
         $_SESSION['auth'] = $user;
         $_SESSION['flash']['success'] = 'Vous êtes maintenant connecté';
+        $_SESSION['auth']->idInvite= $user->IDUSER;
         if ($user->ADMIN == 1) {
             $_SESSION['auth'] = $user;
             $_SESSION['flash']['warning'] = 'Vous utilisez un compte administrateur. Pour vous inscrire utilisez votre compte golfeur.';
