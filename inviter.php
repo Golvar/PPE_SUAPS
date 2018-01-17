@@ -11,4 +11,5 @@ if($DateReservationFormat->format('w') == 0 || $DateReservationFormat->format('w
     $reSousTicketInvit->execute([1,0,1, $idUser]);
 }
 header('Location: account.php');
+
 ?>
