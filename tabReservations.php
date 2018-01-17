@@ -33,6 +33,8 @@
       $date->modify('+15days');
     }elseif (!empty($_POST['precedent'])) {
       $date->modify('-15days');
+    }elseif (!empty($_POST['aujourdhui'])) {
+        $date;
     }
 ?>
 
@@ -176,7 +178,11 @@
 </table>
 <div class="next-before">
   <form  method="post">
-    <button style="display:inline-block;" type="submit" name="precedent" value=1  class="btn btn-primary">Précèdent</button>
-    <button style="display:inline-block;"  type="submit" name="suivant" value=1  class="btn btn-primary">Suivant</button>
+      <div class="text-center">
+          <button style="display:inline-block;" type="submit" name="precedent" value=1  class="btn btn-primary">Précèdent</button>
+          <button style="display:inline-block;"  type="submit" name="aujourdhui" value=1  class="btn btn-warning">Aujourd'hui</button>
+          <button style="display:inline-block;"  type="submit" name="suivant" value=1  class="btn btn-primary">Suivant</button>
+      </div>
+  </br>
   </form>
 </div>
